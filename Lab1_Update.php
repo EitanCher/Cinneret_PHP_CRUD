@@ -1,24 +1,18 @@
 <?php
 include "mysql_conn.php";
-
-$a = $_GET['uname'];
-$b = $_GET['pass'];
-
 $mysql_obj = new mysql_conn();
 $mysql = $mysql_obj->GetConn();
 
-$q_id = "SELECT * FROM `users` WHERE `UserName` LIKE '$a' AND `ValidUntil` = '$b'";
-$res_id = mysqli_query($mysql, $q_id);
+include "class_users.php";
+$user_obj = new User($mysql);
 
-$row = mysqli_fetch_assoc($res_id);
-$id = $row['userID'];
-
-if($_GET['editBtn'] == 1) {
-    $x = $_GET['uname'];
-    $y = $_GET['valid'];
-    $q = "UPDATE `users` SET `UserName` = '$x', `ValidUntil` = '$y' WHERE `users`.`userID` = $id";   
-    $result = mysqli_query($mysql, $q);
+if(isset($_GET['editBtn'])) {
+    $user_obj->UpdateUser($_GET);
+    header("location:./Lab1_Display.php");
 }
+
+$id = isset($_GET['rid']) ? $_GET['rid'] : -1;  //"rid" is passed by URL from "EDIT" link in "Display" page
+$row = $user_obj->GetUser($id);
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +28,11 @@ if($_GET['editBtn'] == 1) {
     <div id="container">    
         <h2>UPDATE USER</h2>
         <form action="" method="get">
-            <input type="text" name="uname"/>
-            <br>
-            <input type="text" name="valid"/>
-            <br>
+            <input type="hidden" name="id" value="<?= $id ?>" />
+            <input type="text" name="uname" value="<?= $row['UserName'] ?>"/><br>
+            <input type="text" name="valid" value="<?= $row['ValidUntil'] ?>"/><br>
             <button name="editBtn" value="1">UPDATE USER</button>
         </form>
     </div>
 </body>
 </html>
-
-

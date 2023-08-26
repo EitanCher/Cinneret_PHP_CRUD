@@ -1,17 +1,14 @@
 <?php
+// Connect to the DB:
 include "mysql_conn.php";
-
 $mysql_obj = new mysql_conn();
 $mysql = $mysql_obj->GetConn();
 
-$query = "SELECT * FROM `users`";
-$result = mysqli_query($mysql, $query);
-
-$s = "";
-
-// while($row = mysqli_fetch_assoc($result)){
-//     $s .= $row["UserName"] . "<br>";
-// }
+// Create an object connected to the DB, having all the relevant functions:
+include "class_users.php";
+$user_obj = new User($mysql);
+// Get an array of Users (each element is a line from the "users" table):
+$userList = $user_obj->GetUsersList();
 ?>
 
 <!DOCTYPE html>
@@ -28,24 +25,19 @@ $s = "";
         <h2>LIST OF USERS</h2>
         <table>
             <tr>
-                <th>-- User Name --</th>
-                <th>-- Valid Until --</th>
+                <th>&nbsp; -- USER NAME --&nbsp;</th>
+                <th>&nbsp; -- VALID UNTIL --&nbsp;</th>
+                <th></th>
             </tr>
             <?php
-            while($row = mysqli_fetch_assoc($result)){ ?>
+            foreach ($userList as $row) { ?>
                 <tr>
                     <td><?= $row['UserName'] ?></td>
                     <td><?= $row['ValidUntil'] ?></td>
-                    <td>
-                        <form action="Lab1_Update.php" method="get">
-                            <button name="edit" value="1">EDIT</button>
-                        </form>
-                    </td>
+                    <td><a href="Lab1_Update.php?rid=<?= $row['userID'] ?>"> &nbsp; EDIT &nbsp;</a> </td>
                 </tr>
             <?php } ?>
         </table>
     </div>
 </body>
 </html>
-
-
