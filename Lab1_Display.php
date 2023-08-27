@@ -32,8 +32,8 @@ if(isset($_GET['btnDelete'])) {
         <h2>LIST OF USERS</h2>
         <table>
             <tr>
-                <th>&nbsp; -- USER NAME --&nbsp;</th>
-                <th>&nbsp; -- VALID UNTIL --&nbsp;</th>
+                <th>&nbsp;&nbsp; USER NAME &nbsp;&nbsp;</th>
+                <th>&nbsp;&nbsp; VALID UNTIL &nbsp;&nbsp;</th>
                 <th></th>
                 <th></th>
             </tr>

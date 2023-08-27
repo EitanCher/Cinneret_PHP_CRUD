@@ -9,6 +9,7 @@ if(isset($_GET['setUser'])) {
     include "class_users.php";
     $user_obj = new User($mysql);
     $user_obj->CreateUser($_GET);
+    header("location: Lab1_Display.php");
 }
 
 ?>
