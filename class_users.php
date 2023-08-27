@@ -59,6 +59,15 @@ class User {
         }
     }
 
+    public function DeleteUser($params) {
+        $id = isset($params['btnDelete']) ? $params['btnDelete'] : "";
+
+        $q = "DELETE FROM `users` ";
+        $q .= "WHERE `users`.`userID` = '$id'";
+
+        $result = mysqli_query($this->mysql, $q);
+    }
+
     private function EncPass($p) {
         $prefix = ((strlen($p) * 44) % 33);
         $siffix = ((strlen($p) * 55) % 33);

@@ -9,6 +9,13 @@ include "class_users.php";
 $user_obj = new User($mysql);
 // Get an array of Users (each element is a line from the "users" table):
 $userList = $user_obj->GetUsersList();
+
+if(isset($_GET['btnDelete'])) {
+    $user_obj->DeleteUser($_GET);
+    header("Location: ".$_SERVER['PHP_SELF']);
+    // header("location: Lab1_Display.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +35,7 @@ $userList = $user_obj->GetUsersList();
                 <th>&nbsp; -- USER NAME --&nbsp;</th>
                 <th>&nbsp; -- VALID UNTIL --&nbsp;</th>
                 <th></th>
+                <th></th>
             </tr>
             <?php
             foreach ($userList as $row) { ?>
@@ -35,6 +43,10 @@ $userList = $user_obj->GetUsersList();
                     <td><?= $row['UserName'] ?></td>
                     <td><?= $row['ValidUntil'] ?></td>
                     <td><a href="Lab1_Update.php?rid=<?= $row['userID'] ?>"> &nbsp; EDIT &nbsp;</a> </td>
+                    <td><form method="get">
+                            <button name="btnDelete" value="<?= $row['userID'] ?>">&nbsp;&nbsp;DELETE&nbsp;&nbsp;</button>
+                        </form>
+                    </td>
                 </tr>
             <?php } ?>
         </table>
