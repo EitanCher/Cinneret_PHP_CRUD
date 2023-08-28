@@ -14,10 +14,11 @@ if(isset($_GET['btnLogin'])) {
     $pass =  (isset($_GET['pass'])) ? $_GET['pass'] : "";
     if (($gss < 4) && ($users_obj->IsValid($uname, $pass))) {
         $_SESSION['ValidUser'] = $uname;
+        $_SESSION['TOKEN'] = substr(md5(rand(100, 999)), 0, 10);
         setcookie("MyUser", $uname);
         header("location: Lab1_Success.php");
     }
-    else{
+    else {
         setcookie("MyUser",0);
         echo "TRY AGAIN";
         $gss++;

@@ -40,7 +40,8 @@ if(isset($_GET['btnDelete'])) {
             <?php
             foreach ($userList as $row) { ?>
                 <tr>
-                    <td><?= $row['UserName'] ?></td>
+                    <!-- "htmlspecialchars" is to avoid xss scripts:     -->
+                    <td><?= htmlspecialchars($row['UserName']) ?></td>
                     <td><?= $row['ValidUntil'] ?></td>
                     <td><a href="Lab1_Update.php?rid=<?= $row['userID'] ?>"> &nbsp; EDIT &nbsp;</a> </td>
                     <td><form method="get">

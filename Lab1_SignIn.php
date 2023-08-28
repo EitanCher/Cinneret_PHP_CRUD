@@ -1,4 +1,5 @@
 <?php
+session_start(); // Should come first in the script. Allows using $_SESSION
 var_dump($_GET);
 
 include "mysql_conn.php";
@@ -6,10 +7,12 @@ $mysql_obj = new mysql_conn();
 $mysql = $mysql_obj->GetConn();
 
 if(isset($_GET['setUser'])) {
-    include "class_users.php";
-    $user_obj = new User($mysql);
-    $user_obj->CreateUser($_GET);
-    header("location: Lab1_Display.php");
+    if(isset($_GET['token']) && $_GET['token'] == $_SESSION['TOKEN']) {
+        include "class_users.php";
+        $user_obj = new User($mysql);
+        $user_obj->CreateUser($_GET);
+        header("location: Lab1_Display.php");
+    }
 }
 
 ?>
@@ -27,6 +30,7 @@ if(isset($_GET['setUser'])) {
     <div id="container">    
         <h2>SET USER-NAME AND PASSWORD</h2>
         <form action="" method="get">
+            <input type="hidden" name="token" value="<?= $_SESSION['TOKEN'] ?>" />  
             <input type="text" name="uname" placeholder="USER NAME..." /><br>
             <input type="text" name="pass" placeholder="PASSWORD..." /><br>
             <button name="setUser" value="1">CREATE USER</button>
